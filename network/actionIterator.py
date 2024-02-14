@@ -28,8 +28,10 @@ class ActionIterator:
         return self.actions
     
     def get_saliences(self, t):
-        # one action at time dominates
-        dominate = int(t % self.n_actions)
+        # one action at a time dominates
+        n_tasks = np.shape(np.array(self.saliences))[0]
+
+        dominate = int(t % n_tasks)
         
         # check the size of saliences to see if they have been specified
         if len(np.shape(np.array(self.saliences))) > 1:

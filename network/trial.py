@@ -45,7 +45,11 @@ class BGTrial(pytry.Trial):
         act_encoder = sspspace.RandomSSPSpace(domain_dim=1, ssp_dim=param.sp_dims, rng=np.random.RandomState(seed=param.seed))
         
         ## Initialise Action Iterator
-        n_actions=len(param.saliences)
+        if len(np.shape(np.array(param.saliences))) == 1:
+            n_actions=len(param.saliences)
+        else:
+            n_actions=len(param.saliences[0])
+            
         if param.version == 'new':
             action_iterator = ActionIteratorScaledSPs(param.sp_dims, act_encoder, n_actions=n_actions, saliences=param.saliences)
         elif param.version == 'old':
@@ -99,7 +103,8 @@ class BGTrial(pytry.Trial):
         ## Run the network ##
         with nengo.Simulator(model,seed=param.seed) as sim:
             # Run through each action choice twice
-            sim.run(n_actions)
+            print(f'Run time: {np.shape(np.array(param.saliences))[0]} seconds')
+            sim.run(np.shape(np.array(param.saliences))[0])
             
         if param.version == 'new':
             ## create similarity decoder
