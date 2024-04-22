@@ -1,9 +1,11 @@
-# The Basal Ganglia Network (Nengo)
-The original Basal Ganglia class (BasalGanglia in network\BasalGangliaNew) was copied from https://github.com/nengo/nengo/blob/main/nengo/networks/actionselection.py.
+The Basal Ganglia Network (Nengo).
+The original Basal Ganglia class (BasalGanglia in network\BasalGangliaNew) was 
+copied from https://github.com/nengo/nengo/blob/main/nengo/networks/actionselection.py.
 It is provided here under a GPLv2 license.
-We adapted it to create SPBasalGanglia: with the main adaptation being a new matrix for the connection between STN and GPe, formulated by Dr. P. Michael Furlong. 
+We adapted it to create SPBasalGanglia: with the main adaptation being a new matrix 
+for the connection between STN and GPe, formulated by Dr. P. Michael Furlong. 
 
-# The Semantic Pointer Architecture (ABR)
+The Semantic Pointer Architecture (ABR).
 The Semantic Pointer Architecture, Temporal Semantic Pointers, Spatial Semantic 
 Pointers, the Legendre Memory Units (LMU) and other Applied Brain Research Inc. 
 of Waterloo, Ontario, Canada (ABR) owned intellectual property and related 
