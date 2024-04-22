@@ -1,4 +1,6 @@
-## Copied and adapted from https://github.com/nengo/nengo/blob/main/nengo/networks/actionselection.py 
+## The original Basal ganglia class (BasalGanglia) was copied from https://github.com/nengo/nengo/blob/main/nengo/networks/actionselection.py 
+## It is provided here under a GPLv2 license 
+## We here adapted it to create SPBasalGanglia
 ## MB introduced a new matrix for the connection between STN and GPe, formulated by Dr. P. Michael Furlong
 
 import warnings
@@ -84,7 +86,10 @@ def stn_gpe_connections(act_encoder):
     A_mat = np.vstack(Actions)
     # create the symmetric Laplacian matrix
     graph = np.ones((max_actions,max_actions))
-    L_mat = csgraph.laplacian(graph, symmetrized=True)*0.01
+    #L_mat = csgraph.laplacian(graph, symmetrized=True)*0.01
+    ### TRYING NEW LAPLACIANS ###
+    L_mat = csgraph.laplacian(graph, symmetrized=False)*0.01
+    #np.fill_diagonal(L_mat, 0.8)
     # calculate L dot A
     LdotA = np.dot(L_mat, A_mat)
     # calculate weight matrix w = A.T dot L dot A
@@ -534,7 +539,8 @@ class SPBasalGanglia(Network):
 
             # connect GPi to output (inhibitory)
             gpi_output = self.gpi.add_output("func_gpi", Weights.no_func)
-            self.gpi_neurons = self.gpi.add_neuron_output()
+            if neuron_type != Direct():
+                self.gpi_neurons = self.gpi.add_neuron_output()
             Connection(gpi_output, self.output, synapse=None, transform=output_weight)
 
         # Return ampa_config and gaba_config to previous states, if changed
