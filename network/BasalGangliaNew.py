@@ -1,7 +1,7 @@
 ## The original Basal ganglia class (BasalGanglia) was copied from https://github.com/nengo/nengo/blob/main/nengo/networks/actionselection.py 
 ## It is provided here under a GPLv2 license 
-## We here adapted it to create SPBasalGanglia
-## MB introduced a new matrix for the connection between STN and GPe, formulated by Dr. P. Michael Furlong
+## We here adapted it to create SPBasalGanglia where Dr Madeleine Bartlett introduced a new matrix for the connection between STN and GPe, 
+## formulated by Dr. P. Michael Furlong
 
 import warnings
 

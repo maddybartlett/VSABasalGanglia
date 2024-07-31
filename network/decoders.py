@@ -1,3 +1,4 @@
+## Author(s): Dr Madeleine Bartlett
 import numpy as np
 import sspspace
 
@@ -13,22 +14,28 @@ class Decoder:
         # output_data should be sim.data[outProbe]
         self.output_data = output_data
         
-        # Generate action SPs
+        # Generate action SPs using the encoder
         Action_SPs = []
         for idx in range(self.n_actions):
             Action_SPs.append(self.act_encoder.encode((idx+1)*10))
 
+        ## create empty lists for the saliences and selected actions
         saliences = []
         selected_actions = []
 
+        ## for each output SP
         for idx in range(len(output_data)):
-            out_sp = output_data[idx] ## checking I can decode out what goes in
+            out_sp = output_data[idx] ## get the SP
 
-            sals = []
+            sals = [] ## empty list of saliences
+            ## for each action, calculate the dot product similarity between the encoded action
+            ## and the output SP bundle
             for i in range(len(Action_SPs)):
-                sals.append(np.dot(Action_SPs[i], out_sp)[0])
+                sals.append(np.dot(Action_SPs[i], out_sp)[0]) ## the result is the salience of the encoded action
 
+            ## collect the saliences into a list
             saliences.append(sals)
+            ## identify the action with the largest salience
             selected_actions.append(np.asarray(sals).argmax())
 
         return selected_actions, saliences

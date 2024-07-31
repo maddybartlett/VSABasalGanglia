@@ -1,4 +1,4 @@
-## Author(s): Madeleine Bartlett
+## Author(s): Dr Madeleine Bartlett
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -13,6 +13,37 @@ from decoders import Decoder
 class BGTrial(pytry.Trial):
     '''
     Pytry trial for running the Basal Ganglia model which takes the bundle of scaled SSPs as input and uses Dr Furlong's connection weights
+
+    Parameters
+    ----------
+    sp_dims : int
+        dimensionality of the SSP action space. 
+    version : str ('new' or 'old')
+        version of the network to be used.
+    n_ensembles : int
+        number of ensembles used by each nucleus of the basal ganglia.    
+    dimensions : int
+        dimensionality of the basal ganglia network. If using 'old' 2010 network, should be equal to number of actions.
+        If using the 'new' network, should be equal to sp_dims.
+    bias : float
+        bias term to be applied to basal ganglia input.
+    n_neurons : int
+        number of neurons to be used per ensemble.
+    relus_list : list
+        list of nuclei that will have their ReLU functions intact.
+    conns_list : list
+        list of connections that will be active in the network.
+    neuron_type :  nengo NeuronType
+        the model that simulates all neurons in the ensemble (see NeuronType).
+    saliences : list
+        list of values to be used as the salience of each action. Can be either a single list, or a nested list where
+        the saliences are defined for each task.
+    plot :  bool
+        whether or not to plot the results.
+    get_spikes : bool
+        whether or not to collect and save the spike data from the GPi
+    run_num :  int
+        label to differentiate between different runs
     '''
     ## Set Parameters ##
     def params(self):
@@ -36,10 +67,14 @@ class BGTrial(pytry.Trial):
         self.param('To plot or not', plot=False)
         self.param('To collect spikes or not', get_spikes=False)
         
+        ## Run Number ## 
         self.param('Label to differentiate different runs', run_num=0)
     
         
     def evaluate(self,param):
+        '''
+        Function for running the trial. 
+        '''
         
         ## Semantic Pointer encoder
         act_encoder = sspspace.RandomSSPSpace(domain_dim=1, ssp_dim=param.sp_dims, rng=np.random.RandomState(seed=param.seed))
@@ -50,6 +85,7 @@ class BGTrial(pytry.Trial):
         else:
             n_actions=len(param.saliences[0])
             
+        ## set iterator version
         if param.version == 'new':
             action_iterator = ActionIteratorScaledSPs(param.sp_dims, act_encoder, n_actions=n_actions, saliences=param.saliences)
         elif param.version == 'old':
@@ -67,6 +103,7 @@ class BGTrial(pytry.Trial):
         ## Initialise Basal Ganglia 
         model = nengo.Network(label="Basal Ganglia",seed=param.seed)
         with model:
+            ## set parameters
             if param.version == 'new':
                 basal_ganglia = bg(dimensions=param.sp_dims, act_encoder=act_encoder, 
                                             n_ensembles=param.n_ensembles, 
@@ -127,12 +164,14 @@ class BGTrial(pytry.Trial):
             'selected_action':sim.data[selected_action],
             'decoded_actions':decoded_actions,
             'decoded_saliences':decoded_saliences,
+            'raw_output':sim.data[selected_action],
             'total_neurons':param.n_neurons*param.n_ensembles*5,
             
         }
         
         data_dict.update(results)
         
+        ## collect the spike data
         if param.get_spikes == True:
             spikes = {'spikes': sim.data[p_spikes]}
 

@@ -1,4 +1,6 @@
 # VSABasalGanglia
+
+This repository contains the scripts and code used in the experiments reported in *Bartlett, M., Furlong, M., Stewart, T. C., & Orchard, J. (2023, December). Using Vector Symbolic Architectures for Distributed Action Representations in a Spiking Model of the Basal Ganglia. In Proceedings of the Annual Meeting of the Cognitive Science Society (Vol. 46).*
  
 Note: this repository also relies on dependency sspspace available at https://github.com/ctn-waterloo/sspspace
 
@@ -19,5 +21,21 @@ Figures will be saved as pdfs.
 
 ## Networks
 
+The networks include The original Basal ganglia class (BasalGanglia) copied from https://github.com/nengo/nengo/blob/main/nengo/networks/actionselection.py. It is provided here under a GPLv2 license.
 
+We also adapted it to create SPBasalGanglia where we introduced a new matrix for the connection between STN and GPe, namely a LaPlacian matric, that allows us to apply lateral inhibition to the salience distribution stored in the action-salience bundle. 
+
+## Reference
+
+To cite this project please use:
+
+```
+@inproceedings{bartlett2023using,
+  title={Using Vector Symbolic Architectures for Distributed Action Representations in a Spiking Model of the Basal Ganglia},
+  author={Bartlett, Madeleine and Furlong, Michael and Stewart, Terrence C and Orchard, Jeff},
+  booktitle={Proceedings of the Annual Meeting of the Cognitive Science Society},
+  volume={46},
+  year={2023}
+}
+```
 
