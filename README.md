@@ -1,4 +1,4 @@
-# VSABasalGanglia
+# VSA Basal Ganglia
 
 This repository contains the scripts and code used in the experiments reported in *Bartlett, M., Furlong, M., Stewart, T. C., & Orchard, J. (2024). [Using Vector Symbolic Architectures for Distributed Action Representations in a Spiking Model of the Basal Ganglia](https://escholarship.org/content/qt6067f4sm/qt6067f4sm_noSplash_f1a0da7290d2c17947b90d550b3bc6c1.pdf). In Proceedings of the Annual Meeting of the Cognitive Science Society (Vol. 46).*
  
